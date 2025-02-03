@@ -33,6 +33,8 @@ style_vector = torch.randn(1, config.style_dim)  # 风格向量
 for key, module in model.items():
     if isinstance(module, nn.Module):
         print(f"Summary for {key}:")
+        start_time = time.time()
+        
         if key == "mel_encoder":
             summary(module, input_data=[input_mel], col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
         elif key == "decoder":    # 还是有bug
