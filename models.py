@@ -316,14 +316,20 @@ class TextEncoder(nn.Module):
             x, batch_first=True)
                 
         x = x.transpose(-1, -2)
-        x_pad = torch.zeros([x.shape[0], x.shape[1], m.shape[-1]])
 
+        # Fix: Create the correct padding tensor `x_pad` with shape [B, T, feature_dim]
+        batch_size, seq_len, feature_dim = x.size()
+
+        # Adjust x_pad's shape to match x's shape: [B, T, feature_dim]
+        x_pad = torch.zeros([batch_size, seq_len, feature_dim], device=x.device)
+
+        # Copy the data from x to x_pad
         x_pad[:, :, :x.shape[-1]] = x
-        x = x_pad.to(x.device)
-        
-        x.masked_fill_(m, 0.0)
-        
-        return x
+
+        # Apply mask on the padded tensor
+        x_pad = x_pad.masked_fill(m, 0.0)
+
+        return x_pad
 
     def inference(self, x):
         x = self.embedding(x)
