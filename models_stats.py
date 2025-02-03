@@ -55,36 +55,20 @@ for key, module in model.items():
             summary(module, input_data=[asr, F0_squeezed, N_squeezed, style_vector],
                     col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
 
-
-
-
         # Assuming your model has a 'text_encoder' module
-
         elif key == "text_encoder":
 
             # Create input data
-
             input_text = torch.randint(0, config.n_token, (1, 100))  # Random text input (batch_size=1, seq_len=100)
-
             input_lengths = torch.tensor([100])  # All sequences have length 100
-
             mask = torch.zeros(1, 100).bool()  # No masking applied (all False)
-
             # Print the shapes to confirm the expected input format
-
             print("input_text shape:", input_text.shape)  # (1, 100)
-
             print("input_lengths shape:", input_lengths.shape)  # (1,)
-
             print("mask shape:", mask.shape)  # (1, 100)
-
             # Now run summary for text_encoder
-
             summary(module, input_data=[input_text, input_lengths, mask],
-
                     col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
-
-
 
         elif key == "style_encoder":
 
@@ -97,4 +81,7 @@ for key, module in model.items():
             summary(module, input_data=[input_mel, torch.ones(1, 96).to(torch.bool), input_text], col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
         elif key == "pitch_extractor":
             summary(module, input_data=[input_mel.unsqueeze(1)], col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
-        print("\n")
+        
+        end_time = time.time()  # 记录结束时间
+        elapsed_time = end_time - start_time  # 计算每个模块的运行时间
+        print(f"Running time for {key}: {elapsed_time:.4f} seconds\n")
