@@ -11,7 +11,6 @@ Audio samples: [https://styletts-vc.github.io/](https://styletts-vc.github.io/)
 ***Our work has been awarded [SLT 2022 Best Papers Award](https://slt2022.org/best-papers.php)**
 
 
-### Stats
 # Model Summary
 
 | Component         | Total Parameters | Trainable Parameters | Non-trainable Parameters | Total Mult-adds (M/G) | Input Size (MB) | Forward/Backward Pass Size (MB) | Params Size (MB) | Estimated Total Size (MB) |
@@ -20,9 +19,11 @@ Audio samples: [https://styletts-vc.github.io/](https://styletts-vc.github.io/)
 | **Text Encoder**   | 5,606,400        | 5,606,400             | 0                        | 82.75 G               | 0.00            | 3.28                             | 22.43             | 25.70                     |
 | **Style Encoder**  | 13,845,440       | 13,845,440            | 0                        | 6.72 G                | 0.06            | 60.98                            | 55.38             | 116.43                    |
 | **Discriminator**  | 13,835,180       | 13,835,180            | 0                        | 6.72 G                | 0.06            | 60.98                            | 55.34             | 116.38                    |
+| **Decoder**        | 32,719,026       | 32,719,026            | 0                        | 55.54 G               | 0.20            | 0.22                             | 0.30              | 0.72                      |
 
 ### Total Model Summary:
-- **Total Parameters**: 33,378,334
-- **Total Mult-adds**: 98.94 G
-- **Total Estimated Size**: 259.21 MB
+- **Total Parameters**: 66,097,360
+- **Total Mult-adds**: 160.50 G
+- **Total Estimated Size**: **259.93 MB**
+
 
