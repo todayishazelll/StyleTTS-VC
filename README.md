@@ -20,6 +20,6 @@ Audio samples: [https://styletts-vc.github.io/](https://styletts-vc.github.io/)
 ### Total Model Summary:
 - **Total Parameters**: 70,626,768
 - **Total Mult-adds**: 153.82 G
-- - **Total Running Time**: 0.4977 s
+- **Total Running Time**: 0.4977 s
 
 
