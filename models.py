@@ -447,8 +447,8 @@ class Decoder(nn.Module):
         self.to_out = nn.Sequential(weight_norm(nn.Conv1d(dim_in, dim_out, 1, 1, 0)))
         
     def forward(self, asr, F0, N, s):        
-        F0 = self.F0_conv(F0.unsqueeze(1))
-        N = self.N_conv(N.unsqueeze(1))
+        F0 = F0.unsqueeze(1)  # Shape: [batch_size, 1, 96] (Change here)
+        N = N.unsqueeze(1)  # Shape: [batch_size, 1, 96] (Change here)
         
         x = torch.cat([asr, F0, N], axis=1)
         x = self.encode(x)
