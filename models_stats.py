@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchinfo import summary
-from models import build_model
+from models import build_model, load_F0_models, load_ASR_models
 
 # 定义模型参数
 class Config:
@@ -17,7 +17,8 @@ class Config:
 
 # 构建模型
 config = Config()
-model = build_model(config, text_aligner=None, pitch_extractor=None)
+model = build_model(config, text_aligner=load_ASR_models("Utils/ASR/epoch_00080.pth", "Utils/ASR/config.yml"),
+                    pitch_extractor=load_F0_models("Utils/JDC/bst.t7"))
 
 # 假设输入的梅尔谱图大小为 (1, 80, 192) (batch_size=1, n_mels=80, time_steps=192)
 # 假设文本输入长度为 (1, 100) (batch_size=1, seq_len=100)
