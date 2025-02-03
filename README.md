@@ -10,46 +10,19 @@ Audio samples: [https://styletts-vc.github.io/](https://styletts-vc.github.io/)
 
 ***Our work has been awarded [SLT 2022 Best Papers Award](https://slt2022.org/best-papers.php)**
 
-## Pre-requisites
-1. Python >= 3.7
-2. Clone this repository:
-```bash
-git clone https://github.com/yl4579/StyleTTS-VC.git
-cd StyleTTS
-```
-3. Install python requirements: 
-```bash
-pip install SoundFile torchaudio munch torch pydub pyyaml librosa git+https://github.com/resemble-ai/monotonic_align.git
-```
-4. Download and extract the [VCTK dataset](https://datashare.ed.ac.uk/handle/10283/3443). You need to downsample all files in `wav48_silence_trimmed` to 24 kHz and name the folder `wav24_silence_trimmed`. The vocoder, text aligner and pitch extractor are pre-trained on 24 kHz data, but you can easily change the preprocessing and re-train them using your own preprocessing. I will provide more receipes and pre-trained models later if I have time. If you are willing to help, feel free to work on other preprocessing methods. 
 
-## Training
-First stage training:
-```bash
-python train_first.py --config_path ./Configs/config.yml
-```
-Second stage training:
-```bash
-python train_second.py --config_path ./Configs/config.yml
-```
-The repo is self-contained and you do not need to train the first stage model with the [StyleTTS](https://github.com/yl4579/StyleTTS) repo. You can run both commands consecutively and it will train both the first and second stage. The model will be saved in the format "epoch_1st_%05d.pth" and "epoch_2nd_%05d.pth". Checkpoints and Tensorboard logs will be saved at `log_dir`. 
+### Stats
+# Model Summary
 
-The data list format needs to be `filename.wav|transcription|speaker`, see [val_list.txt](https://github.com/yl4579/StyleTTS-VC/blob/main/Data/val_list.txt) as an example. The speaker information is needed in order to perform speaker-dependent adversarial training. 
+| Component         | Total Parameters | Trainable Parameters | Non-trainable Parameters | Total Mult-adds (M/G) | Input Size (MB) | Forward/Backward Pass Size (MB) | Params Size (MB) | Estimated Total Size (MB) |
+|-------------------|------------------|-----------------------|--------------------------|-----------------------|-----------------|----------------------------------|-------------------|---------------------------|
+| **Mel Encoder**    | 91,314           | 91,314                | 0                        | 8.77 M                | 0.20            | 0.14                             | 0.37              | 0.70                      |
+| **Text Encoder**   | 5,606,400        | 5,606,400             | 0                        | 82.75 G               | 0.00            | 3.28                             | 22.43             | 25.70                     |
+| **Style Encoder**  | 13,845,440       | 13,845,440            | 0                        | 6.72 G                | 0.06            | 60.98                            | 55.38             | 116.43                    |
+| **Discriminator**  | 13,835,180       | 13,835,180            | 0                        | 6.72 G                | 0.06            | 60.98                            | 55.34             | 116.38                    |
 
-## Inference
+### Total Model Summary:
+- **Total Parameters**: 33,378,334
+- **Total Mult-adds**: 98.94 G
+- **Total Estimated Size**: 259.21 MB
 
-Please refer to [inference.ipynb](https://github.com/yl4579/StyleTTS-VC/blob/main/Demo/Inference.ipynb) for details. 
-
-The pretrained StyleTTS-VC on VCTK and Hifi-GAN on LibriTTS corpus in 24 kHz can be downloaded at [StyleTTS-VC Link](https://huggingface.co/yl4579/StyleTTS-VC/blob/main/Models.zip) and [Hifi-GAN Link](https://huggingface.co/yl4579/StyleTTS-VC/blob/main/Vocoder.zip). 
-
-Please unzip to `Models` and `Vocoder` respectivey and run each cell in the notebook. 
-
-## Preprocessing
-
-The pretrained text aligner and pitch extractor models are provided under the `Utils` folder. Both the text aligner and pitch extractor models are trained with melspectrograms preprocessed using [meldataset.py](https://github.com/yl4579/StyleTTS-VC/blob/main/meldataset.py). 
-
-You can edit the [meldataset.py](https://github.com/yl4579/StyleTTS-VC/blob/main/meldataset.py) with your own melspectrogram preprocessing, but the provided pretrained models will no longer work. You will need to train your own text aligner and pitch extractor with the new preprocessing. 
-
-The code for training new text aligner model is available [here](https://github.com/yl4579/AuxiliaryASR) and that for training new pitch extractor models is available [here](https://github.com/yl4579/PitchExtractor).
-
-I will provide more recepies with existing preprocessing like those in official [HifiGAN](https://github.com/jik876/hifi-gan) and [ESPNet](https://github.com/espnet/espnet) in the future if I have extra time. If you are willing to help, feel free to make receipes with [ESPNet](https://github.com/espnet/espnet). 
