@@ -34,7 +34,7 @@ for key, module in model.items():
         print(f"Summary for {key}:")
         if key == "mel_encoder":
             summary(module, input_data=[input_mel], col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
-        elif key == "decoder":
+        elif key == "decoder":    # 还是有bug
             # 调整输入数据的形状
             asr = torch.randn(1, config.hidden_dim, 96)  # ASR 特征
             F0 = torch.randn(1, 1, 96)  # F0 特征
