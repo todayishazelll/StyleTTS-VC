@@ -7,6 +7,7 @@ Audio samples: [https://styletts-vc.github.io/](https://styletts-vc.github.io/)
 
 
 # Model Summary
+(model_stats.py)
 
 | Component         | Total Parameters | Trainable Parameters | Non-trainable Parameters | Total Mult-adds (M/G) | Input Size (MB) | Forward/Backward Pass Size (MB) | Params Size (MB) | Estimated Total Size (MB) | Running Time (s) |
 |-------------------|------------------|-----------------------|--------------------------|-----------------------|-----------------|----------------------------------|-------------------|---------------------------|--------------------|
