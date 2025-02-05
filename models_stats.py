@@ -4,7 +4,6 @@ import torch.nn as nn
 from torchinfo import summary
 from models import build_model, load_F0_models, load_ASR_models
 
-# 定义模型参数
 class Config:
     def __init__(self):
         self.n_mels = 80
@@ -16,21 +15,21 @@ class Config:
         self.max_conv_dim = 512
         self.n_domain = 108
 
-# 构建模型
+# Model Construction
 config = Config()
 model = build_model(config, text_aligner=load_ASR_models("Utils/ASR/epoch_00080.pth", "Utils/ASR/config.yml"),
                     pitch_extractor=load_F0_models("Utils/JDC/bst.t7"))
 
-# 假设输入的梅尔谱图大小为 (1, 80, 192) (batch_size=1, n_mels=80, time_steps=192)
-# 假设文本输入长度为 (1, 100) (batch_size=1, seq_len=100)
-# 假设参考梅尔谱图大小为 (1, 80, 192) (batch_size=1, n_mels=80, time_steps=192)
-# 假设风格向量的大小为 (1, 128) (batch_size=1, style_dim=128)
-input_mel = torch.randn(1, 80, 192)  # 输入梅尔谱图
-input_text = torch.randint(0, config.n_token, (1, 100))  # 输入文本
-ref_mel = torch.randn(1, 80, 192)  # 参考梅尔谱图
-style_vector = torch.randn(1, config.style_dim)  # 风格向量
+# Mel: (1, 80, 192) (batch_size=1, n_mels=80, time_steps=192)
+# Assume text length (1, 100) (batch_size=1, seq_len=100)
+# Mel: (1, 80, 192) (batch_size=1, n_mels=80, time_steps=192)
+# Vector: (1, 128) (batch_size=1, style_dim=128)
+input_mel = torch.randn(1, 80, 192) 
+input_text = torch.randint(0, config.n_token, (1, 100)) 
+ref_mel = torch.randn(1, 80, 192) 
+style_vector = torch.randn(1, config.style_dim) 
 
-# 遍历 Munch 对象中的每个模块并打印摘要
+# Munch
 for key, module in model.items():
     if isinstance(module, nn.Module):
         print(f"Summary for {key}:")
@@ -39,10 +38,10 @@ for key, module in model.items():
         if key == "mel_encoder":
             summary(module, input_data=[input_mel], col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
         elif key == "decoder":
-            # 调整输入数据的形状
-            asr = torch.randn(1, config.hidden_dim, 96)  # ASR 特征 (Shape: [batch_size, hidden_dim, 96])
-            F0 = torch.randn(1, 1, 96)  # F0 特征 (Shape: [batch_size, 1, 96])
-            N = torch.randn(1, 1, 96)  # 归一化特征 (Shape: [batch_size, 1, 96])
+            # Adjust shape
+            asr = torch.randn(1, config.hidden_dim, 96)  # ASR (Shape: [batch_size, hidden_dim, 96])
+            F0 = torch.randn(1, 1, 96)  # F0 (Shape: [batch_size, 1, 96])
+            N = torch.randn(1, 1, 96)  # (Shape: [batch_size, 1, 96])
             style_vector = torch.randn(1, config.style_dim)  # Example: style_vector (Shape: [batch_size, style_dim])
 
             # Squeeze F0 and N along axis 1 to remove the second dimension, if needed
@@ -86,6 +85,6 @@ for key, module in model.items():
         elif key == "pitch_extractor":
             summary(module, input_data=[input_mel.unsqueeze(1)], col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"])
         
-        end_time = time.time()  # 记录结束时间
-        elapsed_time = end_time - start_time  # 计算每个模块的运行时间
+        end_time = time.time()  
+        elapsed_time = end_time - start_time 
         print(f"Running time for {key}: {elapsed_time:.4f} seconds\n")
