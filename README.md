@@ -24,6 +24,7 @@ Audio samples: [https://styletts-vc.github.io/](https://styletts-vc.github.io/)
 - **Total Parameters**: 83,740,087
 - **Total Mult-adds**: 166.89 G
 - **Total Running Time**: 1.121 s
+- All Parameters are trainable.
 
 
 ### Component Purpose: 
