@@ -26,4 +26,5 @@ Audio samples: [https://styletts-vc.github.io/](https://styletts-vc.github.io/)
 - **Total Running Time**: 1.121 s
 
 Mel Encoder, Linear Proj, Text Encoder, Style Encoder, Decoder, Pitch Extractor, Text Aligner: Used for both training and inference.
+
 Discriminator: Used primarily for training.
